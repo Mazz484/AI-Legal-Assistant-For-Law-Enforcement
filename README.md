@@ -25,15 +25,15 @@
 
 ## 🗂️ Table of Contents
 - [Overview](../main?tab=readme-ov-file#-overview)
-- [Features](#features)
-- [Architecture](#architecture)
-- [Tech Stack](#tech-stack)
-- [Directory Structure](#directory-structure)
-- [Setup & Installation](#setup--installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
+- [Features](../main?tab=readme-ov-file#-features)
+- [Architecture](../main?tab=readme-ov-file#%EF%B8%8F-architecture)
+- [Tech Stack](../main?tab=readme-ov-file#%EF%B8%8F-tech-stack)
+- [Directory Structure](../main?tab=readme-ov-file#-directory-structure)
+- [Setup & Installation](../main?tab=readme-ov-file#-setup--installation)
+- [Usage](../main?tab=readme-ov-file#-usage)
+- [Contributing](../main?tab=readme-ov-file#-contributing)
+- [License](../main?tab=readme-ov-file#-license)
+- [Contact](../main?tab=readme-ov-file#-contact)
 
 ---
 
