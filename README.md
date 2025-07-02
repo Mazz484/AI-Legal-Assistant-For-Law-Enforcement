@@ -19,7 +19,7 @@
 
 | Login Page | Chat Page |
 |:----------:|:---------:|
-| ![Login](../Test%20Output's/Frontend/loginpage.png) | ![Chat](../Test%20Output's/Frontend/Chatpage.png) |
+| ![Login](../test_outputs/Frontend/Chatpage.png) | ![Chat](../Test%20Output's/Frontend/Chatpage.png) |
 
 ---
 
