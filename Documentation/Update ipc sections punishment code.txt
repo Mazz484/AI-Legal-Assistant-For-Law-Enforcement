@@ -1,0 +1,164 @@
+import mysql.connector
+import requests
+from bs4 import BeautifulSoup
+import time
+import urllib3
+import re
+
+# Disable SSL warnings
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+def connect_to_db():
+    return mysql.connector.connect(
+        host="localhost",
+        user="root1",
+        password="pass",
+        database="legal_ai"
+    )
+
+def get_section_details(section_number):
+    # Handle alphanumeric sections
+    base_number = re.sub(r'[^0-9]', '', section_number)
+    suffix = re.sub(r'[0-9]', '', section_number)
+    
+    urls = [
+        f"https://devgan.in/ipc/section_{section_number}.php",
+        f"https://devgan.in/ipc/{section_number}.php",
+        f"https://devgan.in/ipc/section_{section_number.lower()}.php",
+        f"https://devgan.in/ipc/section_{base_number}{suffix.lower()}.php",
+        f"https://devgan.in/ipc/section_{base_number}_{suffix.lower()}.php"
+    ]
+    
+    for url in urls:
+        try:
+            response = requests.get(url, verify=False)
+            if response.status_code == 200:
+                soup = BeautifulSoup(response.text, 'html.parser')
+                
+                # Extract title
+                title = ""
+                title_tag = soup.find('h1')
+                if title_tag:
+                    title = title_tag.text.strip()
+                
+                # Extract description
+                description = ""
+                content_div = soup.find('div', class_='content')
+                if content_div:
+                    for p in content_div.find_all('p'):
+                        text = p.text.strip()
+                        if not any(keyword in text.lower() for keyword in ['punishment', 'shall be punished', 'imprisonment', 'fine']):
+                            description += text + " "
+                
+                # Extract punishment
+                punishment = ""
+                punishment_div = soup.find('div', class_='punishment')
+                if punishment_div:
+                    punishment = punishment_div.text.strip()
+                else:
+                    if content_div:
+                        for p in content_div.find_all('p'):
+                            text = p.text.strip()
+                            if any(keyword in text.lower() for keyword in ['punishment', 'shall be punished', 'imprisonment', 'fine']):
+                                punishment += text + " "
+                
+                return {
+                    'title': title,
+                    'description': description.strip(),
+                    'punishment': punishment.strip()
+                }
+                
+        except Exception as e:
+            print(f"Error with URL {url}: {str(e)}")
+            continue
+    
+    return None
+
+def update_section(cursor, section_number, data):
+    cursor.execute("""
+        UPDATE ipc_sections 
+        SET title = %s,
+            description = %s,
+            punishment = %s
+        WHERE section_number = %s
+    """, (data['title'], data['description'], data['punishment'], section_number))
+
+def main():
+    conn = connect_to_db()
+    cursor = conn.cursor()
+    
+    # 1. Most commonly queried sections
+    common_sections = [
+        "302", "304", "378", "379", "420", "376", "307", "323", "324", "498A",
+        "120A", "120B", "121A", "124A", "153A", "166A", "171A", "376A", "376B",
+        "376C", "376D", "376E", "376AB", "376DA", "376DB"
+    ]
+    
+    print("\n=== Updating Common Sections ===")
+    for section in common_sections:
+        print(f"\nProcessing Section {section}...")
+        data = get_section_details(section)
+        if data:
+            update_section(cursor, section, data)
+            print(f"Updated Section {section}")
+            print(f"Title: {data['title']}")
+            print(f"Punishment: {data['punishment'][:100]}...")
+        else:
+            print(f"Could not find data for Section {section}")
+        time.sleep(1)
+    
+    # 2. Sections with missing descriptions
+    print("\n=== Updating Sections with Missing Descriptions ===")
+    cursor.execute("""
+        SELECT section_number 
+        FROM ipc_sections 
+        WHERE description IS NULL OR description = ''
+    """)
+    missing_desc_sections = cursor.fetchall()
+    
+    for (section,) in missing_desc_sections:
+        print(f"\nProcessing Section {section}...")
+        data = get_section_details(section)
+        if data:
+            update_section(cursor, section, data)
+            print(f"Updated Section {section}")
+            print(f"Description: {data['description'][:100]}...")
+        else:
+            print(f"Could not find data for Section {section}")
+        time.sleep(1)
+    
+    # 3. Remaining sections with missing punishments
+    print("\n=== Updating Remaining Sections ===")
+    cursor.execute("""
+        SELECT section_number 
+        FROM ipc_sections 
+        WHERE punishment IS NULL OR punishment = ''
+        ORDER BY 
+            CASE 
+                WHEN section_number REGEXP '^[0-9]+$' THEN CAST(section_number AS UNSIGNED)
+                ELSE 999999
+            END,
+            section_number
+    """)
+    remaining_sections = cursor.fetchall()
+    
+    for (section,) in remaining_sections:
+        print(f"\nProcessing Section {section}...")
+        data = get_section_details(section)
+        if data:
+            update_section(cursor, section, data)
+            print(f"Updated Section {section}")
+            print(f"Punishment: {data['punishment'][:100]}...")
+        else:
+            print(f"Could not find data for Section {section}")
+        time.sleep(1)
+    
+    # Commit changes and close connection
+    conn.commit()
+    cursor.close()
+    conn.close()
+    
+    print("\nUpdate completed!")
+
+if __name__ == "__main__":
+    main() 
