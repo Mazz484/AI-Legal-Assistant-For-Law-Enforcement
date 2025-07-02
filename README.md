@@ -9,7 +9,7 @@
 ## 🎬 Demo Video
 
 > **Watch the project demo:**  
-> [▶️ Download & Play Demo --Version 01.mkv](../Demo%20--Version%2001.mkv)
+> [▶️ Download & Play Demo --Version 01.mkv](../main/Demo%20--Version%2001.mkv)
 >
 > _Note: GitHub does not support direct playback of .mkv files. Download and play locally for best experience._
 
