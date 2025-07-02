@@ -60,8 +60,8 @@
 
 ## 🏗️ Architecture
 
-![Use Case Diagram](../Documentation/Diagrams/Use%20Case%20Diagram.png)
-![Data Flow Diagram](../Documentation/Diagrams/Data%20Flow%20Diagram.png)
+![Use Case Diagram](../main/Documentation/Diagrams/Use%20Case%20Diagram.png)
+![Sequence Diagram](../main/Documentation/Diagrams/Seaquence%20Diagram.png)
 
 ---
 
