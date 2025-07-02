@@ -125,9 +125,13 @@ chat/
      ```bash
      rasa run --enable-api
      ```
-   - Start FastAPI server:
+   - Start actions server:
      ```bash
-     uvicorn chat:app --reload
+     rasa run actions
+     ```
+        - Start  server:
+     ```bash
+     python chat.py
      ```
 
 ---
