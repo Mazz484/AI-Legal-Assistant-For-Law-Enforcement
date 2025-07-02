@@ -24,7 +24,7 @@
 ---
 
 ## 🗂️ Table of Contents
-- [Overview](main?tab=readme-ov-file#-overview)
+- [Overview](../main?tab=readme-ov-file#-overview)
 - [Features](#features)
 - [Architecture](#architecture)
 - [Tech Stack](#tech-stack)
