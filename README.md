@@ -160,4 +160,4 @@ For questions, feedback, or collaboration:
 📧 babureddy2603@gmail.com
 
 ---
-*Developed by Babureddy B N and Team, 2025* 
+*Developed by Babureddy B N and group, 2025* 
