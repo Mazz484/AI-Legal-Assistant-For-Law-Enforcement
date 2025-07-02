@@ -129,7 +129,7 @@ chat/
      ```bash
      rasa run actions
      ```
-        - Start  server:
+   - Start  server:
      ```bash
      python chat.py
      ```
