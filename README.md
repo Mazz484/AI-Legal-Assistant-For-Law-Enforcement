@@ -159,8 +159,8 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 ## 📬 Contact
 For questions, feedback, or collaboration:
-**Babureddy B N**  
-📧 babureddy2603@gmail.com
+**Mohammed Mazz**  
+📧 Mohammedmazz484@gmail.com
 
 ---
-*Developed by Babureddy B N and group, 2025* 
+*Developed by Mohammed Mazz and group, 2025* 
