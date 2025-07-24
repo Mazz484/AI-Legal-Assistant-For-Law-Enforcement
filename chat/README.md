@@ -20,7 +20,7 @@
 
 | Login Page | Chat Page |
 |:----------:|:---------:|
-| ![Login](blob/main/test_outputs/Frontend/Chatpage.png) | ![Chat](blob/main/test_outputs/Frontend/loginpage.png) |
+| ![Login](test_outputs/Frontend/loginpage.png) | ![Chat](test_outputs/Frontend/Chatpage.png) |
 
 ---
 
